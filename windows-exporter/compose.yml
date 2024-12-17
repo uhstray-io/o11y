@@ -7,11 +7,9 @@ services:
     ports:
       - 9182:9182
     volumes:
-      - ./:/etc/windows-exporter/
       - ./config.yml/:/etc/windows-exporter/config.yml
     networks:
       - back-tier
     restart: always
     command:
       - '--config.file=/etc/windows-exporter/config.yml'
-      - '--storage.path=/windows-exporter'
