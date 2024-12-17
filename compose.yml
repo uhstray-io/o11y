@@ -15,6 +15,7 @@ include:
   # - node-exporter/compose.yml
   - prometheus/compose.yml
   - promtail/compose.yml
+  - windows-exporter/compose.yml
 
 services:
 
