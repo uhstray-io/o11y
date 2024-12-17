@@ -118,6 +118,8 @@ services:
 
   loki:
     image: grafana/loki:latest
+    depends_on:
+      - promtail
     ports:
       - "3100:3100"
     volumes:
