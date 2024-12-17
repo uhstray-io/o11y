@@ -121,7 +121,7 @@ services:
     depends_on:
       - promtail
     ports:
-      - "3100:3100"
+      - 3100:3100
     volumes:
       - ./loki/:/etc/loki/
     command: -config.file=/etc/loki/config.yaml
