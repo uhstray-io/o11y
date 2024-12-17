@@ -23,6 +23,7 @@ alertmanager_storage:
 - [ ] Migrate Mimir to Microservice Deployment Mode
 - [ ] Determine Beyla eBPF Instrumentation Targets
 - [ ] Add Pyroscope for Wisbot Profiling
+- [ ] Setup relabeling to streamline service discovery | https://grafana.com/docs/loki/latest/send-data/promtail/scraping/
 
 ## Architecture
 

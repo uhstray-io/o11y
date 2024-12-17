@@ -12,10 +12,10 @@ include:
   - mimir/compose.yml
   - mimir/load-balancer/compose.yml
   - mimir/minio/compose.yml
-  # - node-exporter/compose.yml
+  - node-exporter/compose.yml
   - prometheus/compose.yml
   - promtail/compose.yml
-  - windows-exporter/compose.yml
+  # - windows-exporter/compose.yml
 
 services:
 

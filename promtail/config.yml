@@ -17,3 +17,44 @@ scrape_configs:
           job: varlogs
           __path__: /var/log/*log
           service: promtail
+          
+  - job_name: syslog
+    syslog:
+      listen_address: 0.0.0.0:1514
+      listen_protocol: tcp
+      idle_timeout: 60s
+      label_structured_data: yes
+      labels:
+        job: "syslog"
+    relabel_configs:
+      - source_labels: ['__syslog_message_hostname']
+        target_label: 'host'
+
+  - job_name: journal
+    journal:
+      json: false
+      max_age: 12h
+      path: /var/log/journal
+      matches: _TRANSPORT=kernel
+      labels:
+        job: systemd-journal
+    relabel_configs:
+      - source_labels: ['__journal__systemd_unit']
+        target_label: 'unit'
+
+  - job_name: systemd-journal
+    journal:
+      labels:
+        cluster: ops-tools1
+        job: default/systemd-journal
+      path: /var/log/journal
+    relabel_configs:
+    - source_labels:
+      - __journal__systemd_unit
+      target_label: systemd_unit
+    - source_labels:
+      - __journal__hostname
+      target_label: nodename
+    - source_labels:
+      - __journal_syslog_identifier
+      target_label: syslog_identifier
