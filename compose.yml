@@ -80,9 +80,9 @@ services:
       - /sys:/sys:ro
       - /var/lib/docker/:/var/lib/docker:ro
     ports:
-      - 9092:9092
-    command:
-    - '-port=9092'
+      - 9092:8080
+    # command:
+    # - '-port=9092'
     networks:
       - back-tier
     restart: always
@@ -115,3 +115,22 @@ services:
 #      - "9091:9091"
 #    networks:
 #      - back-tier
+
+  loki:
+    image: grafana/loki:latest
+    ports:
+      - "3100:3100"
+    volumes:
+      - ./loki/:/etc/loki/
+    command: -config.file=/etc/loki/config.yaml
+    networks:
+      - back-tier
+
+  promtail:
+    image: grafana/promtail:latest
+    volumes:
+      - /var/log:/var/log
+      - ./promtail/:/etc/promtail/
+    command: -config.file=/etc/promtail/config.yml
+    networks:
+      - back-tier
