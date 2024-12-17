@@ -7,6 +7,7 @@ Observability deployment resources for Uhstray.io
 - [ ] Develop OpenTelemetry Collector Process for Wisbot
 - [ ] Deploy OpenTelemetry o11y collector integrated with Grafana
 - [ ] Upgrade Alert Manager Storage to use Github Actions driven Secrets
+  
 ```yaml
 alertmanager_storage:
       backend: s3
@@ -18,10 +19,10 @@ alertmanager_storage:
         secret_access_key: {{ .Values.minio.rootPassword }}
 ```
 
-- [ ] Upgrade to Alloy Collector where necessary for production needs 
+- [ ] Upgrade to Alloy Collector where necessary for production needs
 - [ ] Migrate Mimir to Microservice Deployment Mode
-- [ ] Determin Beyla eBPF Instrumentation Targets | 
-- [ ] Add Pyroscope for Wisbot Profiling | 
+- [ ] Determine Beyla eBPF Instrumentation Targets
+- [ ] Add Pyroscope for Wisbot Profiling
 
 ## Architecture
 
@@ -43,6 +44,7 @@ Navigate to the:
 - Grafana Dashboard at [http://localhost:3000](http://localhost:3000)
 - Prometheus Dashboard at [http://localhost:9090](http://localhost:9090)
 - Mimir Dashboard at [http://localhost:9009/](http://localhost:9009/)
+- cAdvisor Dashboard at [http://localhost:9092/](http://localhost:9092/)
 
 ## Testing and Developing
 
@@ -70,6 +72,8 @@ Spin down the deployment and remove all images+volumes
 docker compose down --rmi="all" -v
 ```
 
+---
+
 ## Grafana
 
 https://github.com/grafana/grafana
@@ -89,6 +93,8 @@ https://github.com/grafana/beyla?pg=oss-beyla&plcmt=hero-btn-2
 ### Grafana Pyroscope
 
 https://github.com/grafana/pyroscope
+
+---
 
 ## Prometheus
 
