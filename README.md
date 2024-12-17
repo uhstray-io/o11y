@@ -1,11 +1,99 @@
 # o11y
 Observability deployment resources for Uhstray.io
 
-# Deploying Observability Assets using Github Actions
+## TODO
+
+- [ ] Upgrade Grafana to use Mimir Promtheus TSDB
+- [ ] Develop OpenTelemetry Collector Process for Wisbot
+- [ ] Deploy OpenTelemetry o11y collector integrated with Grafana
+- [ ] Upgrade Alert Manager Storage to use Github Actions driven Secrets
+  
+```yaml
+alertmanager_storage:
+      backend: s3
+      s3:
+        access_key_id: {{ .Values.minio.rootUser }}
+        bucket_name: {{ include "mimir.minioBucketPrefix" . }}-ruler
+        endpoint: {{ template "minio.fullname" .Subcharts.minio }}.{{ .Release.Namespace }}.svc:{{ .Values.minio.service.port }}
+        insecure: true
+        secret_access_key: {{ .Values.minio.rootPassword }}
+```
+
+- [ ] Upgrade to Alloy Collector where necessary for production needs
+- [ ] Migrate Mimir to Microservice Deployment Mode
+- [ ] Determine Beyla eBPF Instrumentation Targets
+- [ ] Add Pyroscope for Wisbot Profiling
+- [ ] Setup relabeling to streamline service discovery | https://grafana.com/docs/loki/latest/send-data/promtail/scraping/
 
 ## Architecture
 
 ![Observability Architecture](observability.drawio.png)
+
+---
+
+## Getting Started
+
+Make sure you have [docker](https://docs.docker.com/engine/install/) installed...
+
+Run docker compose in the `o11y` directory
+
+```bash
+docker compose up -d
+```
+
+Navigate to the: 
+- Grafana Dashboard at [http://localhost:3000](http://localhost:3000)
+- Prometheus Dashboard at [http://localhost:9090](http://localhost:9090)
+- Mimir Dashboard at [http://localhost:9009/](http://localhost:9009/)
+- cAdvisor Dashboard at [http://localhost:9092/](http://localhost:9092/)
+
+## Testing and Developing
+
+Get the current logs from the deploymnet to triage
+
+```bash
+docker compose logs
+```
+
+Spin the current deployment down
+
+```bash
+docker compose down
+```
+
+Spin down the deployment and remove all volumes
+
+```bash
+docker compose down -v
+```
+
+Spin down the deployment and remove all images+volumes
+
+```bash
+docker compose down --rmi="all" -v
+```
+
+---
+
+## Grafana
+
+https://github.com/grafana/grafana
+
+### Grafana Mimir
+
+https://grafana.com/docs/mimir/latest/references/architecture/deployment-modes/
+
+### Grafana Alloy
+
+https://github.com/grafana/alloy
+
+### Grafana Beyla
+
+https://github.com/grafana/beyla?pg=oss-beyla&plcmt=hero-btn-2
+
+### Grafana Pyroscope
+
+https://github.com/grafana/pyroscope
 
 ---
 
@@ -15,42 +103,16 @@ Observability deployment resources for Uhstray.io
 
 https://prometheus.io/docs/prometheus/latest/installation/
 
-Intial build/test for Prometheus
-
-```bash
-# Create persistent volume for your data
-docker volume create prometheus-data
-# Start Prometheus container
-docker run \
-    -p 9090:9090 \
-    -v /path/to/prometheus.yml:/etc/prometheus/prometheus.yml \
-    -v prometheus-data:/prometheus \
-    prom/prometheus
-```
-
-Update the prometheus.yml file with the proper
-
-```dockerfile
-FROM prom/prometheus
-ADD prometheus.yml /etc/prometheus/
-```
-
-Run the docker image with the following commands
-
-```bash
-docker build -t my-prometheus .
-docker run -p 9090:9090 my-prometheus
-```
-
-https://github.com/prometheus-community/ansible
 
 ### Prometheus Node Exporter
 
 https://github.com/prometheus/node_exporter
 
-```bash
-docker compose -f node-exporter-compose.yml up
-```
+
+### Windows Exporter
+
+https://github.com/prometheus/node_exporter
+
 
 ### Prometheus PostgreSQL Exporter
 
@@ -70,20 +132,6 @@ https://opentelemetry.io/docs/collector/deployment/agent/
 
 https://opentelemetry.io/docs/collector/installation/
 
-```yaml
-otel-collector:
-  image: otel/opentelemetry-collector-contrib
-  volumes:
-    - ./otel-collector-config.yaml:/etc/otelcol-contrib/config.yaml
-  ports:
-    - 1888:1888 # pprof extension
-    - 8888:8888 # Prometheus metrics exposed by the Collector
-    - 8889:8889 # Prometheus exporter metrics
-    - 13133:13133 # health_check extension
-    - 4317:4317 # OTLP gRPC receiver
-    - 4318:4318 # OTLP http receiver
-    - 55679:55679 # zpages extension
-```
 
 ### OTEL GO Instrumentation
 
@@ -98,9 +146,3 @@ https://opentelemetry.io/docs/languages/go/exporters/
 https://github.com/traceloop/openllmetry
 
 https://www.traceloop.com/docs/openllmetry/getting-started-python
-
-OTEL Collector Configuration
-
-```bash
-TRACELOOP_BASE_URL=https://<opentelemetry-collector-hostname>:4318
-```

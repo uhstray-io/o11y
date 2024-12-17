@@ -1,0 +1,50 @@
+volumes:
+  mimir-1-data:
+  mimir-2-data:
+  mimir-3-data:
+  
+networks:
+  back-tier:
+
+services:  
+  mimir-1:
+    image: grafana/mimir:latest
+    command: ["-config.file=/etc/mimir.yml"]
+    hostname: mimir-1
+    depends_on:
+      - minio
+    volumes:
+      - ./mimir.yml:/etc/mimir.yml
+      - ../alertmanager/config.yml:/etc/alertmanager-config.yml
+      - mimir-1-data:/data
+    restart: always
+    networks:
+      - back-tier
+
+  mimir-2:
+    image: grafana/mimir:latest
+    command: ["-config.file=/etc/mimir.yml"]
+    hostname: mimir-2
+    depends_on:
+      - minio
+    volumes:
+      - ./mimir.yml:/etc/mimir.yml
+      - ../alertmanager/config.yml:/etc/alertmanager-config.yml
+      - mimir-2-data:/data
+    restart: always
+    networks:
+      - back-tier
+
+  mimir-3:
+    image: grafana/mimir:latest
+    command: ["-config.file=/etc/mimir.yml"]
+    hostname: mimir-3
+    depends_on:
+      - minio
+    volumes:
+      - ./mimir.yml:/etc/mimir.yml
+      - ../alertmanager/config.yml:/etc/alertmanager-config.yml
+      - mimir-3-data:/data
+    restart: always
+    networks:
+      - back-tier

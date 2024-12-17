@@ -7,9 +7,9 @@ global:
   # Attach these labels to any time series or alerts when communicating with
   # external systems (federation, remote storage, Alertmanager).
   external_labels:
-    monitor: "observ-qa"
-    server: "alphacentauri"
-    platform: "o11y"
+    monitor: "apps-qa"
+    server: "andromeda"
+    application: "wisbot"
 
 # Load and evaluate rules in this file every 'evaluation_interval' seconds.
 rule_files:
@@ -27,21 +27,8 @@ rule_files:
 
 # A scrape configuration containing exactly one endpoint to scrape:
 # Here it's Prometheus itself.
-scrape_configs:
-  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
-  - job_name: o11y/mimir
-    static_configs:
-      - targets: ["mimir-1:8090"]
-        labels:
-          pod: "mimir-1"
-      - targets: ["mimir-2:8090"]
-        labels:
-          pod: "mimir-2"
-      - targets: ["mimir-3:8090"]
-        labels:
-          pod: "mimir-3"
 
-  - job_name: o11y/prometheus
+  - job_name: andromeda/prometheus
 
     # Override the global default and scrape targets from this job every 5 seconds.
     scrape_interval: 5s
@@ -51,7 +38,7 @@ scrape_configs:
         labels:
           service: prometheus
 
-  - job_name: o11y/cadvisor
+  - job_name: andromeda/cadvisor
 
     # Override the global default and scrape targets from this job every 5 seconds.
     scrape_interval: 5s
@@ -61,7 +48,7 @@ scrape_configs:
         labels:
           service: cadvisor
 
-  - job_name: o11y/node-exporter
+  - job_name: andromeda/node-exporter
 
     # Override the global default and scrape targets from this job every 5 seconds.
     scrape_interval: 5s
@@ -72,7 +59,7 @@ scrape_configs:
           service: node-exporter
 
 remote_write:
-  - url: http://mimir-load-balancer:9009/api/v1/push
+  - url: http://192.168.1.18:9009/api/v1/push
     # Add X-Scope-OrgID header so that Mimir knows what tenant the remote write data should be stored in.
     # In this case, our tenant is "demo"
     headers:

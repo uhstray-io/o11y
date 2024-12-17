@@ -1,0 +1,15 @@
+networks:
+  back-tier:
+
+services:  
+  windows-exporter:
+    image: prometheuscommunity/windows-exporter:latest
+    ports:
+      - 9182:9182
+    volumes:
+      - ./config.yml/:/etc/windows-exporter/config.yml
+    networks:
+      - back-tier
+    restart: always
+    command:
+      - '--config.file=/etc/windows-exporter/config.yml'

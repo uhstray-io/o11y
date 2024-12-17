@@ -1,0 +1,24 @@
+volumes:
+  prometheus_data:
+
+networks:
+  back-tier:
+
+services:  
+  alertmanager:
+    image: prom/alertmanager:latest
+    ports:
+      - 9093:9093
+    volumes:
+      - ./:/etc/alertmanager/
+      - ./config.yml/:/etc/alertmanager/config.yml
+    networks:
+      - back-tier
+    restart: always
+    command:
+      - '--config.file=/etc/alertmanager/config.yml'
+      - '--storage.path=/alertmanager'
+    #  deploy:
+    #    placement:
+    #      constraints:
+    #        - node.hostname == ${HOSTNAME}

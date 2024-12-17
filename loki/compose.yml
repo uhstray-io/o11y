@@ -1,0 +1,18 @@
+volumes:
+  loki_data:
+
+networks:
+  back-tier:
+
+services:  
+  loki:
+    image: grafana/loki:latest
+    ports:
+      - 3100:3100
+    volumes:
+      - ./:/etc/loki/
+      - ./config.yml:/etc/loki/config.yml
+      - loki_data:/loki
+    command: -config.file=/etc/loki/config.yml
+    networks:
+      - back-tier
