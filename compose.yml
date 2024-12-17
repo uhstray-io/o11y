@@ -6,13 +6,13 @@ networks:
   back-tier:
 
 include:
-  - alertmanager/compose.yml
+  # - alertmanager/compose.yml
   - cadvisor/compose.yml
   - loki/compose.yml
   - mimir/compose.yml
   - mimir/load-balancer/compose.yml
   - mimir/minio/compose.yml
-  - node-exporter/compose.yml
+  # - node-exporter/compose.yml
   - prometheus/compose.yml
   - promtail/compose.yml
 
@@ -22,7 +22,9 @@ services:
     image: grafana/grafana:latest
     user: "472"
     depends_on:
-      - prometheus
+      - mimir-1
+      - mimir-2
+      - mimir-3
     ports:
       - 3000:3000
     volumes:
