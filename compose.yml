@@ -1,6 +1,7 @@
 volumes:
     prometheus_data: {}
     grafana_data: {}
+    loki_data: {}
 
 networks:
   front-tier:
@@ -79,7 +80,7 @@ services:
       - /var/run:/var/run:rw
       - /sys:/sys:ro
       - /var/lib/docker/:/var/lib/docker:ro
-    ports:
+    ports: 
       - 9092:9092
     command:
     - '-port=9092'
@@ -124,6 +125,7 @@ services:
       - 3100:3100
     volumes:
       - ./loki/:/etc/loki/
+      - loki_data:/loki
     command: -config.file=/etc/loki/config.yaml
     networks:
       - back-tier
