@@ -1,0 +1,96 @@
+# Copyright The OpenTelemetry Authors
+# SPDX-License-Identifier: Apache-2.0
+
+# extra settings to be merged into OpenTelemetry Collector configuration
+# do not delete this file
+
+## Example configuration for sending data to your own OTLP HTTP backend
+## Note: the spanmetrics exporter must be included in the exporters array
+## if overriding the traces pipeline.
+##
+#  exporters:
+#    otlphttp/example:
+#      endpoint: <your-endpoint-url>
+#
+#  service:
+#    pipelines:
+#      traces:
+#        exporters: [spanmetrics, otlphttp/example]
+
+# Copyright The OpenTelemetry Authors
+# SPDX-License-Identifier: Apache-2.0
+
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: ${env:OTEL_COLLECTOR_HOST}:${env:OTEL_COLLECTOR_PORT_GRPC}
+      http:
+        endpoint: ${env:OTEL_COLLECTOR_HOST}:${env:OTEL_COLLECTOR_PORT_HTTP}
+        cors:
+          allowed_origins:
+            - "http://*"
+            - "https://*"
+  httpcheck/frontendproxy:
+    targets:
+      - endpoint: http://frontendproxy:${env:ENVOY_PORT}
+  docker_stats:
+    endpoint: unix:///var/run/docker.sock
+  # Host metrics
+  hostmetrics:
+    root_path: /hostfs
+    scrapers:
+      cpu:
+        metrics:
+          system.cpu.utilization:
+            enabled: true
+      disk:
+      load:
+      filesystem:
+      memory:
+        metrics:
+          system.memory.utilization:
+            enabled: true
+      network:
+      paging:
+      processes:
+      process:
+        mute_process_exe_error: true
+        mute_process_io_error: true
+        mute_process_user_error: true
+  # Collector metrics
+  prometheus:
+    config:
+      scrape_configs:
+        - job_name: 'otelcol'
+          scrape_interval: 10s
+          static_configs:
+            - targets: ['0.0.0.0:8888']
+
+exporters:
+  debug:
+  otlphttp/prometheus:
+    endpoint: "http://prometheus:9090/api/v1/otlp"
+    tls:
+      insecure: true
+
+processors:
+  batch:
+
+connectors:
+  spanmetrics:
+
+service:
+  pipelines:
+    traces:
+      receivers: [otlphttp/prometheus]
+      processors: [batch]
+      exporters: [otlphttp/prometheus, debug, spanmetrics]
+    metrics:
+      receivers: [hostmetrics, docker_stats, httpcheck/frontendproxy, otlphttp/prometheus, prometheus, spanmetrics]
+      processors: [batch]
+      exporters: [otlphttp/prometheus, debug]
+    logs:
+      receivers: [otlphttp/prometheus]
+      processors: [batch]
+      exporters: [debug]

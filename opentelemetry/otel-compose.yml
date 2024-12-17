@@ -1,0 +1,27 @@
+---
+service:
+# OpenTelemetry Collector
+  otelcol:
+    image: ${COLLECTOR_CONTRIB_IMAGE}
+    container_name: otel-col
+    deploy:
+      resources:
+        limits:
+          memory: 500M
+    restart: unless-stopped
+    command: [ "--config=/etc/otelcol-config.yml" ]
+    user: 0:0
+    volumes:
+      - ${HOST_FILESYSTEM}:/hostfs:ro
+      - ${DOCKER_SOCK}:/var/run/docker.sock:ro
+      - ${OTEL_COLLECTOR_CONFIG}:/etc/otelcol-config.yml
+    ports:
+      - "${OTEL_COLLECTOR_PORT_GRPC}"
+      - "${OTEL_COLLECTOR_PORT_HTTP}"
+    logging: *logging
+    environment:
+      - ENVOY_PORT
+      - HOST_FILESYSTEM
+      - OTEL_COLLECTOR_HOST
+      - OTEL_COLLECTOR_PORT_GRPC
+      - OTEL_COLLECTOR_PORT_HTTP
