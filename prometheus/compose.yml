@@ -23,11 +23,11 @@ services:
       - cadvisor:cadvisor
       # - alertmanager:alertmanager
     #      - pushgateway:pushgateway
-    depends_on:
+    # depends_on:
       # - cadvisor
-      - mimir-1
-      - mimir-2
-      - mimir-3
+      # - mimir-1
+      # - mimir-2
+      # - mimir-3
     #      - pushgateway
     networks:
       - back-tier

@@ -5,44 +5,6 @@ apiVersion: 1
 # whats available in the database
 datasources:
 
-- name: Loki
-  # <string, required> datasource type. Required
-  type: loki
-  # <string, required> access mode. direct or proxy. Required
-  access: proxy
-  # <int> org id. will default to orgId 1 if not specified
-  orgId: 1
-  # <string> url
-  url: http://loki:3100
-  # <string> database password, if used
-  password:
-  # <string> database user, if used
-  user:
-  # <string> database name, if used
-  database:
-  # <bool> enable/disable basic auth
-  basicAuth: false
-  # <string> basic auth username, if used
-  basicAuthUser:
-  # <string> basic auth password, if used
-  basicAuthPassword:
-  # <bool> enable/disable with credentials headers
-  withCredentials:
-  # <bool> mark as default datasource. Max one per org
-  isDefault: false
-  # <map> fields that will be converted to json and stored in json_data
-  jsonData:
-     graphiteVersion: "1.1"
-     tlsAuth: false
-     tlsAuthWithCACert: false
-  # <string> json object of data that will be encrypted.
-  secureJsonData:
-    tlsCACert: "..."
-    tlsClientCert: "..."
-    tlsClientKey: "..."
-  version: 1
-  # <bool> allow users to edit datasources from the UI.
-  editable: true
 - name: Mimir
   type: prometheus
   access: proxy
@@ -56,6 +18,7 @@ datasources:
   secureJsonData:
     httpHeaderValue1: "o11y"
   isDefault: true
+
 - name: Mimir Alertmanager
   uid: alertmanager
   type: alertmanager
@@ -69,3 +32,27 @@ datasources:
     implementation: "cortex"
   secureJsonData:
     httpHeaderValue1: "o11y"
+
+- name: Loki
+  type: loki
+  access: proxy
+  orgId: 1
+  url: http://loki:3100
+  password:
+  user:
+  database:
+  basicAuth: false
+  basicAuthUser:
+  basicAuthPassword:
+  withCredentials:
+  isDefault: false
+  jsonData:
+     graphiteVersion: "1.1"
+     tlsAuth: false
+     tlsAuthWithCACert: false
+  secureJsonData:
+    tlsCACert: "..."
+    tlsClientCert: "..."
+    tlsClientKey: "..."
+  version: 1
+  editable: true
