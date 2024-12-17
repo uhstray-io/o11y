@@ -73,7 +73,7 @@ services:
 #        constraints:
 #          - node.hostname == ${HOSTNAME}
   cadvisor:
-    image: gcr.io/cadvisor/cadvisor
+    image: gcr.io/cadvisor/cadvisor:latest
     volumes:
       - /:/rootfs:ro
       - /var/run:/var/run:rw
@@ -81,6 +81,8 @@ services:
       - /var/lib/docker/:/var/lib/docker:ro
     ports:
       - 9092:9092
+    command:
+    - '-port=9092'
     networks:
       - back-tier
     restart: always
