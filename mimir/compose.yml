@@ -2,6 +2,7 @@ volumes:
   mimir-1-data:
   mimir-2-data:
   mimir-3-data:
+  
 networks:
   back-tier:
 

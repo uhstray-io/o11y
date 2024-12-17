@@ -1,7 +1,6 @@
 {
   "__requires": [
     {
-      "id": "grafana",
       "name": "Grafana",
       "type": "grafana",
       "version": "8.0.0"
@@ -10,6 +9,7 @@
   "annotations": {
     "list": []
   },
+  "id": 1,
   "editable": true,
   "gnetId": null,
   "graphTooltip": 1,
