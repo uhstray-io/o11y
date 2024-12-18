@@ -9,7 +9,13 @@ Observability deployment resources for Uhstray.io
 
 Make sure you have [docker](https://docs.docker.com/engine/install/) installed...
 
-Run docker compose in the `o11y` directory
+Pull down this repository and navigate to the main `o11y` directory
+```bash
+git clone https://github.com/uhstray-io/o11y.git
+cd ./o11y
+```
+
+Run docker compose
 
 ```bash
 docker compose up -d
