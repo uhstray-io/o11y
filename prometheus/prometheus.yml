@@ -29,7 +29,7 @@ rule_files:
 # Here it's Prometheus itself.
 scrape_configs:
   # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
-  - job_name: o11y/mimir
+  - job_name: mimir
     static_configs:
       - targets: ["mimir-1:8090"]
         labels:
@@ -41,7 +41,7 @@ scrape_configs:
         labels:
           pod: "mimir-3"
 
-  - job_name: o11y/prometheus
+  - job_name: prometheus
 
     # Override the global default and scrape targets from this job every 5 seconds.
     scrape_interval: 5s
@@ -51,7 +51,7 @@ scrape_configs:
         labels:
           service: prometheus
 
-  - job_name: o11y/cadvisor
+  - job_name: cadvisor
 
     # Override the global default and scrape targets from this job every 5 seconds.
     scrape_interval: 5s
@@ -61,7 +61,7 @@ scrape_configs:
         labels:
           service: cadvisor
 
-  - job_name: o11y/node-exporter
+  - job_name: node-exporter
 
     # Override the global default and scrape targets from this job every 5 seconds.
     scrape_interval: 5s
