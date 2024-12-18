@@ -33,7 +33,7 @@
       "height": "250px",
       "panels": [
         {
-          "datasource": "$datasource",
+          "datasource": "Mimir",
           "fieldConfig": {
             "defaults": {
               "custom": {
@@ -81,7 +81,7 @@
           "type": "timeseries"
         },
         {
-          "datasource": "$datasource",
+          "datasource": "Mimir",
           "fieldConfig": {
             "defaults": {
               "custom": {
@@ -129,7 +129,7 @@
           "type": "timeseries"
         },
         {
-          "datasource": "$datasource",
+          "datasource": "Mimir",
           "fieldConfig": {
             "custom": {
               "fillOpacity": 0
@@ -186,7 +186,7 @@
           "type": "timeseries"
         },
         {
-          "datasource": "$datasource",
+          "datasource": "Mimir",
           "description": "### Ingress TCP connections (per pod)\nThe number of ingress TCP connections (HTTP and gRPC protocol).\n",
           "fieldConfig": {
             "custom": {
@@ -262,7 +262,7 @@
       "height": "250px",
       "panels": [
         {
-          "datasource": "$datasource",
+          "datasource": "Mimir",
           "fieldConfig": {
             "defaults": {
               "custom": {
@@ -310,7 +310,7 @@
           "type": "timeseries"
         },
         {
-          "datasource": "$datasource",
+          "datasource": "Mimir",
           "fieldConfig": {
             "defaults": {
               "custom": {
@@ -358,7 +358,7 @@
           "type": "timeseries"
         },
         {
-          "datasource": "$datasource",
+          "datasource": "Mimir",
           "fieldConfig": {
             "custom": {
               "fillOpacity": 0
@@ -415,7 +415,7 @@
           "type": "timeseries"
         },
         {
-          "datasource": "$datasource",
+          "datasource": "Mimir",
           "description": "### Ingress TCP connections (per pod)\nThe number of ingress TCP connections (HTTP and gRPC protocol).\n",
           "fieldConfig": {
             "custom": {
@@ -491,7 +491,7 @@
       "height": "250px",
       "panels": [
         {
-          "datasource": "$datasource",
+          "datasource": "Mimir",
           "fieldConfig": {
             "defaults": {
               "custom": {
@@ -539,7 +539,7 @@
           "type": "timeseries"
         },
         {
-          "datasource": "$datasource",
+          "datasource": "Mimir",
           "fieldConfig": {
             "defaults": {
               "custom": {
@@ -587,7 +587,7 @@
           "type": "timeseries"
         },
         {
-          "datasource": "$datasource",
+          "datasource": "Mimir",
           "fieldConfig": {
             "custom": {
               "fillOpacity": 0
@@ -644,7 +644,7 @@
           "type": "timeseries"
         },
         {
-          "datasource": "$datasource",
+          "datasource": "Mimir",
           "description": "### Ingress TCP connections (per pod)\nThe number of ingress TCP connections (HTTP and gRPC protocol).\n",
           "fieldConfig": {
             "custom": {
@@ -741,7 +741,7 @@
           "text": "prod",
           "value": "prod"
         },
-        "datasource": "$datasource",
+        "datasource": "Mimir",
         "hide": 0,
         "includeAll": true,
         "label": "cluster",
@@ -764,7 +764,7 @@
           "text": "prod",
           "value": "prod"
         },
-        "datasource": "$datasource",
+        "datasource": "Mimir",
         "hide": 0,
         "includeAll": false,
         "label": "namespace",

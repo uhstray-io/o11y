@@ -3,7 +3,8 @@
     {
       "name": "Grafana",
       "type": "grafana",
-      "version": "8.0.0"
+      "version": "8.0.0",
+      "datasource": "Mimir"
     }
   ],
   "annotations": {
@@ -33,7 +34,7 @@
       "height": "250px",
       "panels": [
         {
-          "datasource": "$datasource",
+          "datasource": "Mimir",
           "fieldConfig": {
             "defaults": {
               "custom": {
@@ -81,7 +82,7 @@
           "type": "timeseries"
         },
         {
-          "datasource": "$datasource",
+          "datasource": "Mimir",
           "fieldConfig": {
             "defaults": {
               "max": 1,
@@ -126,7 +127,7 @@
       "height": "250px",
       "panels": [
         {
-          "datasource": "$datasource",
+          "datasource": "Mimir",
           "fieldConfig": {
             "defaults": {
               "custom": {
@@ -174,7 +175,7 @@
           "type": "timeseries"
         },
         {
-          "datasource": "$datasource",
+          "datasource": "Mimir",
           "fieldConfig": {
             "defaults": {
               "max": 1,
@@ -219,7 +220,7 @@
       "height": "250px",
       "panels": [
         {
-          "datasource": "$datasource",
+          "datasource": "Mimir",
           "fieldConfig": {
             "defaults": {
               "custom": {
@@ -298,7 +299,7 @@
           ]
         },
         {
-          "datasource": "$datasource",
+          "datasource": "Mimir",
           "fieldConfig": {
             "defaults": {
               "custom": {
@@ -377,7 +378,7 @@
           ]
         },
         {
-          "datasource": "$datasource",
+          "datasource": "Mimir",
           "fieldConfig": {
             "defaults": {
               "custom": {
@@ -468,7 +469,7 @@
       "height": "250px",
       "panels": [
         {
-          "datasource": "$datasource",
+          "datasource": "Mimir",
           "fieldConfig": {
             "defaults": {
               "custom": {
@@ -547,7 +548,7 @@
           ]
         },
         {
-          "datasource": "$datasource",
+          "datasource": "Mimir",
           "fieldConfig": {
             "defaults": {
               "custom": {
@@ -626,7 +627,7 @@
           ]
         },
         {
-          "datasource": "$datasource",
+          "datasource": "Mimir",
           "fieldConfig": {
             "defaults": {
               "custom": {
@@ -739,7 +740,7 @@
           "text": "All",
           "value": "$__all"
         },
-        "datasource": "$datasource",
+        "datasource": "Mimir",
         "hide": 0,
         "includeAll": true,
         "label": "cluster",
@@ -763,7 +764,7 @@
           "text": "All",
           "value": "$__all"
         },
-        "datasource": "$datasource",
+        "datasource": "Mimir",
         "hide": 0,
         "includeAll": false,
         "label": "namespace",

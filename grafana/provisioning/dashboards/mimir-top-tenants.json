@@ -60,7 +60,7 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
-          "datasource": "$datasource",
+          "datasource": "Mimir",
           "fieldConfig": {
             "overrides": [
               {
@@ -212,7 +212,7 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
-          "datasource": "$datasource",
+          "datasource": "Mimir",
           "fieldConfig": {
             "overrides": [
               {
@@ -360,7 +360,7 @@
       "height": "250px",
       "panels": [
         {
-          "datasource": "$datasource",
+          "datasource": "Mimir",
           "fieldConfig": {
             "defaults": {
               "custom": {
@@ -424,7 +424,7 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
-          "datasource": "$datasource",
+          "datasource": "Mimir",
           "fieldConfig": {
             "overrides": [
               {
@@ -572,7 +572,7 @@
       "height": "250px",
       "panels": [
         {
-          "datasource": "$datasource",
+          "datasource": "Mimir",
           "fieldConfig": {
             "defaults": {
               "custom": {
@@ -636,7 +636,7 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
-          "datasource": "$datasource",
+          "datasource": "Mimir",
           "fieldConfig": {
             "overrides": [
               {
@@ -784,7 +784,7 @@
       "height": "250px",
       "panels": [
         {
-          "datasource": "$datasource",
+          "datasource": "Mimir",
           "fieldConfig": {
             "defaults": {
               "custom": {
@@ -848,7 +848,7 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
-          "datasource": "$datasource",
+          "datasource": "Mimir",
           "fieldConfig": {
             "overrides": [
               {
@@ -1000,7 +1000,7 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
-          "datasource": "$datasource",
+          "datasource": "Mimir",
           "fieldConfig": {
             "overrides": [
               {
@@ -1152,7 +1152,7 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
-          "datasource": "$datasource",
+          "datasource": "Mimir",
           "fieldConfig": {
             "overrides": [
               {
@@ -1304,7 +1304,7 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
-          "datasource": "$datasource",
+          "datasource": "Mimir",
           "fieldConfig": {
             "overrides": [
               {
@@ -1456,7 +1456,7 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
-          "datasource": "$datasource",
+          "datasource": "Mimir",
           "fieldConfig": {
             "overrides": [
               {
@@ -1626,7 +1626,7 @@
           "text": "All",
           "value": "$__all"
         },
-        "datasource": "$datasource",
+        "datasource": "Mimir",
         "hide": 0,
         "includeAll": true,
         "label": "cluster",
@@ -1650,7 +1650,7 @@
           "text": "All",
           "value": "$__all"
         },
-        "datasource": "$datasource",
+        "datasource": "Mimir",
         "hide": 0,
         "includeAll": false,
         "label": "namespace",

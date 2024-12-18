@@ -192,7 +192,7 @@
           "type": "text"
         },
         {
-          "datasource": "$datasource",
+          "datasource": "Mimir",
           "fieldConfig": {
             "defaults": {
               "custom": {
@@ -382,7 +382,7 @@
           "type": "timeseries"
         },
         {
-          "datasource": "$datasource",
+          "datasource": "Mimir",
           "fieldConfig": {
             "defaults": {
               "custom": {
@@ -461,7 +461,7 @@
           "type": "timeseries"
         },
         {
-          "datasource": "$datasource",
+          "datasource": "Mimir",
           "fieldConfig": {
             "defaults": {
               "custom": {
@@ -538,7 +538,7 @@
           "type": "text"
         },
         {
-          "datasource": "$datasource",
+          "datasource": "Mimir",
           "fieldConfig": {
             "defaults": {
               "custom": {
@@ -728,7 +728,7 @@
           "type": "timeseries"
         },
         {
-          "datasource": "$datasource",
+          "datasource": "Mimir",
           "fieldConfig": {
             "defaults": {
               "custom": {
@@ -807,7 +807,7 @@
           "type": "timeseries"
         },
         {
-          "datasource": "$datasource",
+          "datasource": "Mimir",
           "fieldConfig": {
             "defaults": {
               "custom": {
@@ -1104,7 +1104,7 @@
           "type": "text"
         },
         {
-          "datasource": "$datasource",
+          "datasource": "Mimir",
           "fieldConfig": {
             "defaults": {
               "custom": {
@@ -1195,7 +1195,7 @@
           "type": "timeseries"
         },
         {
-          "datasource": "$datasource",
+          "datasource": "Mimir",
           "fieldConfig": {
             "defaults": {
               "custom": {
@@ -1243,7 +1243,7 @@
           "type": "timeseries"
         },
         {
-          "datasource": "$datasource",
+          "datasource": "Mimir",
           "fieldConfig": {
             "defaults": {
               "custom": {
@@ -1351,7 +1351,7 @@
           "type": "text"
         },
         {
-          "datasource": "$datasource",
+          "datasource": "Mimir",
           "fieldConfig": {
             "defaults": {
               "custom": {
@@ -1436,7 +1436,7 @@
           "type": "timeseries"
         },
         {
-          "datasource": "$datasource",
+          "datasource": "Mimir",
           "fieldConfig": {
             "defaults": {
               "custom": {
@@ -1514,7 +1514,7 @@
           "type": "timeseries"
         },
         {
-          "datasource": "$datasource",
+          "datasource": "Mimir",
           "fieldConfig": {
             "defaults": {
               "custom": {
@@ -1596,7 +1596,7 @@
           "text": "All",
           "value": "$__all"
         },
-        "datasource": "$datasource",
+        "datasource": "Mimir",
         "hide": 0,
         "includeAll": true,
         "label": "cluster",
@@ -1620,7 +1620,7 @@
           "text": "All",
           "value": "$__all"
         },
-        "datasource": "$datasource",
+        "datasource": "Mimir",
         "hide": 0,
         "includeAll": false,
         "label": "namespace",

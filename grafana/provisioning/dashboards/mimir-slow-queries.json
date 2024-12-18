@@ -1315,7 +1315,7 @@
           "text": "prod",
           "value": "prod"
         },
-        "datasource": "$datasource",
+        "datasource": "Mimir",
         "hide": 0,
         "includeAll": true,
         "label": "cluster",
@@ -1338,7 +1338,7 @@
           "text": "prod",
           "value": "prod"
         },
-        "datasource": "$datasource",
+        "datasource": "Mimir",
         "hide": 0,
         "includeAll": false,
         "label": "namespace",
