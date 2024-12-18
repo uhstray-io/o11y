@@ -1,35 +1,9 @@
 # o11y
 Observability deployment resources for Uhstray.io
 
-## TODO
-
-- [ ] Upgrade Grafana to use Mimir Promtheus TSDB
-- [ ] Develop OpenTelemetry Collector Process for Wisbot
-- [ ] Deploy OpenTelemetry o11y collector integrated with Grafana
-- [ ] Upgrade Alert Manager Storage to use Github Actions driven Secrets
-  
-```yaml
-alertmanager_storage:
-      backend: s3
-      s3:
-        access_key_id: {{ .Values.minio.rootUser }}
-        bucket_name: {{ include "mimir.minioBucketPrefix" . }}-ruler
-        endpoint: {{ template "minio.fullname" .Subcharts.minio }}.{{ .Release.Namespace }}.svc:{{ .Values.minio.service.port }}
-        insecure: true
-        secret_access_key: {{ .Values.minio.rootPassword }}
-```
-
-- [ ] Upgrade to Alloy Collector where necessary for production needs
-- [ ] Migrate Mimir to Microservice Deployment Mode
-- [ ] Determine Beyla eBPF Instrumentation Targets
-- [ ] Add Pyroscope for Wisbot Profiling
-- [ ] Setup relabeling to streamline service discovery | https://grafana.com/docs/loki/latest/send-data/promtail/scraping/
-
 ## Architecture
 
 ![Observability Architecture](observability.drawio.png)
-
----
 
 ## Getting Started
 
@@ -72,6 +46,32 @@ Spin down the deployment and remove all images+volumes
 ```bash
 docker compose down --rmi="all" -v
 ```
+
+---
+
+## TODO
+
+- [ ] Upgrade Grafana to use Mimir Promtheus TSDB
+- [ ] Develop OpenTelemetry Collector Process for Wisbot
+- [ ] Deploy OpenTelemetry o11y collector integrated with Grafana
+- [ ] Upgrade Alert Manager Storage to use Github Actions driven Secrets
+  
+```yaml
+alertmanager_storage:
+      backend: s3
+      s3:
+        access_key_id: {{ .Values.minio.rootUser }}
+        bucket_name: {{ include "mimir.minioBucketPrefix" . }}-ruler
+        endpoint: {{ template "minio.fullname" .Subcharts.minio }}.{{ .Release.Namespace }}.svc:{{ .Values.minio.service.port }}
+        insecure: true
+        secret_access_key: {{ .Values.minio.rootPassword }}
+```
+
+- [ ] Upgrade to Alloy Collector where necessary for production needs
+- [ ] Migrate Mimir to Microservice Deployment Mode
+- [ ] Determine Beyla eBPF Instrumentation Targets
+- [ ] Add Pyroscope for Wisbot Profiling
+- [ ] Setup relabeling to streamline service discovery | https://grafana.com/docs/loki/latest/send-data/promtail/scraping/
 
 ---
 
