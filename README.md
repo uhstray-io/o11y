@@ -115,6 +115,13 @@ https://prometheus.io/docs/prometheus/latest/installation/
 https://github.com/prometheus/node_exporter
 
 
+### Promtail
+
+https://grafana.com/docs/loki/latest/send-data/promtail/
+
+https://github.com/grafana/loki/tree/main/clients/cmd/promtail
+
+
 ### Windows Exporter
 
 https://github.com/prometheus/node_exporter

@@ -10,17 +10,16 @@ clients:
 
 scrape_configs:
   - job_name: system
-    decompression:
-      enabled: true
-      initial_delay: 10s
-      format: gz
+    pipeline_stages:
+      - docker:
     static_configs:
-    - targets:
-        - localhost
-      labels:
-        job: varlogs
-        __path__: /var/log/**.gz
-          
+      - targets:
+          - localhost
+        labels:
+          job: varlogs
+          host: alphacentauri
+          __path__: /var/log/*.log
+
   - job_name: syslog
     syslog:
       listen_address: 0.0.0.0:1514
@@ -29,9 +28,10 @@ scrape_configs:
       label_structured_data: yes
       labels:
         job: "syslog"
+        host: alphacentauri
     relabel_configs:
-      - source_labels: ['__syslog_message_hostname']
-        target_label: 'host'
+      - source_labels: ["__syslog_message_hostname"]
+        target_label: "host"
 
   - job_name: journal
     journal:
@@ -41,34 +41,24 @@ scrape_configs:
       matches: _TRANSPORT=kernel
       labels:
         job: systemd-journal
+        host: alphacentauri
     relabel_configs:
-      - source_labels: ['__journal__systemd_unit']
-        target_label: 'unit'
+      - source_labels: ["__journal__systemd_unit"]
+        target_label: "unit"
 
   - job_name: systemd-journal
     journal:
       labels:
-        cluster: ops-tools1
         job: default/systemd-journal
+        host: alphacentauri
       path: /var/log/journal
     relabel_configs:
-    - source_labels:
-      - __journal__systemd_unit
-      target_label: systemd_unit
-    - source_labels:
-      - __journal__hostname
-      target_label: nodename
-    - source_labels:
-      - __journal_syslog_identifier
-      target_label: syslog_identifier
-
-  - job_name: containers
-    static_configs:
-    - targets:
-        - localhost
-      labels:
-        job: containerlogs
-        __path__: /var/lib/docker/containers/*/*log
-
-    pipeline_stages:
-      docker: {}
+      - source_labels:
+          - __journal__systemd_unit
+        target_label: systemd_unit
+      - source_labels:
+          - __journal__hostname
+        target_label: nodename
+      - source_labels:
+          - __journal_syslog_identifier
+        target_label: syslog_identifier
