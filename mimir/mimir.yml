@@ -18,12 +18,9 @@ blocks_storage:
   tsdb:
     dir: /data/ingester
 
-instance_limits:
-  max_ingestion_rate: 20000
-  max_series: 150000
-  max_tenants: 200
-  max_inflight_push_requests: 30000
-  max_inflight_push_requests_bytes: 314572800
+
+limits:
+  max_label_names_per_series: 70
 
 # Use memberlist, a gossip-based protocol, to enable the 3 Mimir replicas to communicate
 memberlist:
