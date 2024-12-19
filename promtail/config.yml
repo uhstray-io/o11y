@@ -10,13 +10,16 @@ clients:
 
 scrape_configs:
   - job_name: system
+    decompression:
+      enabled: true
+      initial_delay: 10s
+      format: gz
     static_configs:
-      - targets:
-          - localhost
-        labels:
-          job: varlogs
-          __path__: /var/log/*log
-          service: promtail
+    - targets:
+        - localhost
+      labels:
+        job: varlogs
+        __path__: /var/log/**.gz
           
   - job_name: syslog
     syslog:
@@ -68,27 +71,4 @@ scrape_configs:
         __path__: /var/lib/docker/containers/*/*log
 
     pipeline_stages:
-    - json:
-        expressions:
-          output: log
-          stream: stream
-          attrs:
-    - json:
-        expressions:
-          tag:
-        source: attrs
-    - regex:
-        expression: (?P<image_name>(?:[^|]*[^|])).(?P<container_name>(?:[^|]*[^|])).(?P<image_id>(?:[^|]*[^|])).(?P<container_id>(?:[^|]*[^|]))
-        source: tag
-    - timestamp:
-        format: RFC3339Nano
-        source: time
-    - labels:
-        tag:
-        stream:
-        image_name:
-        container_name:
-        image_id:
-        container_id:
-    - output:
-        source: output
+      docker: {}
