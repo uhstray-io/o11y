@@ -121,6 +121,8 @@ https://grafana.com/docs/loki/latest/send-data/promtail/
 
 https://github.com/grafana/loki/tree/main/clients/cmd/promtail
 
+https://grafana.com/docs/loki/latest/send-data/promtail/configuration/
+
 
 ### Windows Exporter
 
