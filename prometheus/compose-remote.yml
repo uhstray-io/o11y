@@ -13,6 +13,7 @@ services:
     image: prom/prometheus:latest
     volumes:
       - ./:/etc/prometheus/
+      - ./prometheus-remote.yml:/etc/prometheus/prometheus.yml
       - prometheus_data:/prometheus
       - ./rules.yml:/etc/prometheus/rules.yml
     command:
