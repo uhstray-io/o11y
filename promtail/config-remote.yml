@@ -1,9 +1,3 @@
-global:
-  external_labels:
-    monitor: "apps-qa"
-    server: "andromeda"
-    platform: "wisbot"
-
 server:
   http_listen_port: 9080
   grpc_listen_port: 0
@@ -23,6 +17,9 @@ scrape_configs:
           - localhost
         labels:
           job: varlogs
+          monitor: "apps-qa"
+          server: "andromeda"
+          platform: "wisbot"
           __path__: /var/log/*.log
 
   - job_name: syslog
@@ -33,6 +30,9 @@ scrape_configs:
       label_structured_data: yes
       labels:
         job: "syslog"
+        monitor: "apps-qa"
+        server: "andromeda"
+        platform: "wisbot"
     relabel_configs:
       - source_labels: ["__syslog_message_hostname"]
         target_label: "host"
@@ -45,6 +45,9 @@ scrape_configs:
       matches: _TRANSPORT=kernel
       labels:
         job: systemd-journal
+        monitor: "apps-qa"
+        server: "andromeda"
+        platform: "wisbot"
     relabel_configs:
       - source_labels: ["__journal__systemd_unit"]
         target_label: "unit"
@@ -53,6 +56,9 @@ scrape_configs:
     journal:
       labels:
         job: default/systemd-journal
+        monitor: "apps-qa"
+        server: "andromeda"
+        platform: "wisbot"
       path: /var/log/journal
     relabel_configs:
       - source_labels:
