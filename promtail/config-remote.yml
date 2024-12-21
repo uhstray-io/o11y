@@ -1,8 +1,8 @@
 global:
   external_labels:
-    monitor: "ops-qa"
-    server: "alphacentauri"
-    platform: "o11y"
+    monitor: "apps-qa"
+    server: "andromeda"
+    platform: "wisbot"
 
 server:
   http_listen_port: 9080
@@ -12,7 +12,7 @@ positions:
   filename: /tmp/positions.yaml
 
 clients:
-  - url: http://loki:3100/loki/api/v1/push
+  - url: http://192.168.1.18:3100/loki/api/v1/push
 
 scrape_configs:
   - job_name: system

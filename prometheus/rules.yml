@@ -14,8 +14,8 @@ groups:
   - name: high_load
     rules:
       - alert: high_load
-        expr: node_load1 > 0.75
-        for: 2m
+        expr: node_load1 > 0.90
+        for: 5m
         labels:
           severity: page
         annotations:

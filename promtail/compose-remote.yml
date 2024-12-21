@@ -1,0 +1,13 @@
+networks:
+  back-tier:
+
+services:  
+  promtail:
+    image: grafana/promtail:latest
+    volumes:
+      - /var/log:/var/log
+      - ./:/etc/promtail/
+      - ./config-remote.yml:/etc/promtail/config.yml
+    command: -config.file=/etc/promtail/config.yml
+    networks:
+      - back-tier
