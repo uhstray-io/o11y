@@ -5,14 +5,13 @@ networks:
   back-tier:
 
 include:
-  - ../node-exporter/compose.yml
-  - ../cadvisor/compose.yml
+  - "../node-exporter/compose.yml"
+  - "../cadvisor/compose.yml"
 
-services:  
+services:
   prometheus:
     image: prom/prometheus:latest
     volumes:
-      - ./:/etc/prometheus/
       - ./prometheus-remote.yml:/etc/prometheus/prometheus.yml
       - prometheus_data:/prometheus
       - ./rules.yml:/etc/prometheus/rules.yml
@@ -26,13 +25,13 @@ services:
       - 9090:9090
     # links:
     #   - cadvisor:cadvisor
-      # - alertmanager:alertmanager
+    # - alertmanager:alertmanager
     #      - pushgateway:pushgateway
     # depends_on:
-      # - cadvisor
-      # - mimir-1
-      # - mimir-2
-      # - mimir-3
+    # - cadvisor
+    # - mimir-1
+    # - mimir-2
+    # - mimir-3
     #      - pushgateway
     networks:
       - back-tier

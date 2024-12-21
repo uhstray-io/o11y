@@ -17,18 +17,18 @@ rule_files:
   # - "first.rules"
   # - "second.rules"
 
-# # alert
-# alerting:
-#   alertmanagers:
-#   - scheme: http
-#     static_configs:
-#     - targets:
-#       - "alertmanager:9093"
+  # # alert
+  # alerting:
+  #   alertmanagers:
+  #   - scheme: http
+  #     static_configs:
+  #     - targets:
+  #       - "alertmanager:9093"
 
-# A scrape configuration containing exactly one endpoint to scrape:
-# Here it's Prometheus itself.
+  # A scrape configuration containing exactly one endpoint to scrape:
+  # Here it's Prometheus itself.
 
-  - job_name: andromeda/prometheus
+  - job_name: prometheus
 
     # Override the global default and scrape targets from this job every 5 seconds.
     scrape_interval: 5s
@@ -38,7 +38,7 @@ rule_files:
         labels:
           service: prometheus
 
-  - job_name: andromeda/cadvisor
+  - job_name: cadvisor
 
     # Override the global default and scrape targets from this job every 5 seconds.
     scrape_interval: 5s
@@ -48,7 +48,7 @@ rule_files:
         labels:
           service: cadvisor
 
-  - job_name: andromeda/node-exporter
+  - job_name: node-exporter
 
     # Override the global default and scrape targets from this job every 5 seconds.
     scrape_interval: 5s
