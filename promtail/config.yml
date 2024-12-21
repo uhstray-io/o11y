@@ -1,9 +1,3 @@
-global:
-  external_labels:
-    monitor: "ops-qa"
-    server: "alphacentauri"
-    platform: "o11y"
-
 server:
   http_listen_port: 9080
   grpc_listen_port: 0
