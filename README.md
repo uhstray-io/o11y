@@ -5,11 +5,17 @@ Observability deployment resources for Uhstray.io
 
 ![Observability Architecture](observability.drawio.png)
 
+## Contributing Guidelines
+
+- [Review our Code of Conduct](https://www.uhstray.io/en/code-of-conduct)
+- [Check our CONTRIBUTING.MD](./CONTRIBUTING.md)
+
 ## Getting Started
 
 Make sure you have [docker](https://docs.docker.com/engine/install/) installed...
 
 Pull down this repository and navigate to the main `o11y` directory
+
 ```bash
 git clone https://github.com/uhstray-io/o11y.git
 cd ./o11y
@@ -21,7 +27,8 @@ Run docker compose
 docker compose up -d
 ```
 
-Navigate to the: 
+Navigate to the:
+
 - Grafana Dashboard at [http://localhost:3000](http://localhost:3000)
 - Prometheus Dashboard at [http://localhost:9090](http://localhost:9090)
 - Mimir Dashboard at [http://localhost:9009/](http://localhost:9009/)
@@ -109,11 +116,9 @@ https://github.com/grafana/pyroscope
 
 https://prometheus.io/docs/prometheus/latest/installation/
 
-
 ### Prometheus Node Exporter
 
 https://github.com/prometheus/node_exporter
-
 
 ### Promtail
 
@@ -123,11 +128,9 @@ https://github.com/grafana/loki/tree/main/clients/cmd/promtail
 
 https://grafana.com/docs/loki/latest/send-data/promtail/configuration/
 
-
 ### Windows Exporter
 
 https://github.com/prometheus/node_exporter
-
 
 ### Prometheus PostgreSQL Exporter
 
@@ -146,7 +149,6 @@ https://opentelemetry.io/docs/specs/otlp/
 https://opentelemetry.io/docs/collector/deployment/agent/
 
 https://opentelemetry.io/docs/collector/installation/
-
 
 ### OTEL GO Instrumentation
 
