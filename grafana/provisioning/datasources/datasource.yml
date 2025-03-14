@@ -54,5 +54,25 @@ datasources:
     tlsCACert: "..."
     tlsClientCert: "..."
     tlsClientKey: "..."
+    httpHeaderValue1: "o11y"
   version: 1
   editable: true
+
+- name: Tempo
+  type: tempo
+  access: proxy
+  orgId: 1
+  url: http://tempo:3200
+  basicAuth: false
+  isDefault: false
+  version: 1
+  editable: true
+  apiVersion: 1
+  uid: tempo-authed
+  jsonData:
+    httpHeaderName1: 'X-Scope-OrgID'
+    httpMethod: GET
+    serviceMap:
+      datasourceUid: prometheus
+  secureJsonData:
+    httpHeaderValue1: "o11y"

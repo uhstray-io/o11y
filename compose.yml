@@ -8,6 +8,7 @@ networks:
 include:
   # - alertmanager/compose.yml
   - cadvisor/compose.yml
+  - tempo/compose.yml
   - loki/compose.yml
   - mimir/compose.yml
   - mimir/load-balancer/compose.yml
