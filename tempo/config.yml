@@ -1,7 +1,7 @@
 stream_over_http_enabled: true
 server:
   http_listen_port: 3200
-  log_level: info
+  log_level: warn
 
 distributor:
   receivers:
@@ -32,7 +32,7 @@ metrics_generator:
   storage:
     path: /var/tempo/generator/wal
     remote_write:
-      - url: http://192.168.1.14:9009/api/v1/push
+      - url: http://localhost:9009/api/v1/push
         send_exemplars: true
   traces_storage:
     path: /var/tempo/generator/traces
