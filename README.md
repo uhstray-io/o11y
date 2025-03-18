@@ -1,5 +1,39 @@
+<!-- omit in toc -->
 # o11y
-Observability deployment resources for Uhstray.io
+
+Automated Full-Stack Observability deployment resources for Uhstray.io
+
+<!-- omit in toc -->
+## Table of Contents
+
+- [Architecture](#architecture)
+- [Overview](#overview)
+- [Contributing Guidelines](#contributing-guidelines)
+- [Component Overview](#component-overview)
+  - [Metrics Collection](#metrics-collection)
+  - [Logs Management](#logs-management)
+  - [Tracing](#tracing)
+  - [Visualization](#visualization)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Deployment](#deployment)
+  - [Accessing Dashboards](#accessing-dashboards)
+- [Testing and Developing](#testing-and-developing)
+- [Troubleshooting](#troubleshooting)
+  - [Common Issues](#common-issues)
+  - [Viewing Component Logs](#viewing-component-logs)
+- [Technology References](#technology-references)
+  - [Grafana Ecosystem](#grafana-ecosystem)
+  - [Prometheus Ecosystem](#prometheus-ecosystem)
+  - [OpenTelemetry](#opentelemetry)
+  - [General Todo](#general-todo)
+  - [WisBot Todo](#wisbot-todo)
+  - [Security Enhancements](#security-enhancements)
+  - [Operational Improvements](#operational-improvements)
+  - [Application Observability](#application-observability)
+  - [Documentation](#documentation)
+
+---
 
 ## Architecture
 
@@ -128,6 +162,31 @@ This repository contains the deployment resources for our observability stack, i
 - [Review our Code of Conduct](https://www.uhstray.io/en/code-of-conduct)
 - [Check our CONTRIBUTING.MD](./CONTRIBUTING.md)
 
+---
+
+## Component Overview
+
+### Metrics Collection
+- **Prometheus**: Time-series database for storing metrics
+- **Node Exporter**: Hardware and OS metrics collection
+- **cAdvisor**: Container metrics collection
+- **Mimir**: Scalable, long-term metrics storage
+
+### Logs Management
+- **Loki**: Log aggregation system
+- **Promtail**: Log collection agent
+
+### Tracing
+- **Tempo**: Distributed tracing backend
+- **OpenTelemetry Collector**: Trace collection and processing
+- **Alloy**: Unified telemetry collector
+
+### Visualization
+- **Grafana**: Unified visualization platform for metrics, logs, and traces
+- **Pyroscope**: Continuous profiling platform
+
+---
+
 ## Getting Started
 
 ### Prerequisites
@@ -161,6 +220,8 @@ Navigate to the following dashboards:
 - Tempo UI: [http://localhost:3200](http://localhost:3200)
 - Loki UI: [http://localhost:3100](http://localhost:3100)
 
+---
+
 ## Testing and Developing
 
 Get the current logs from the deployment to triage:
@@ -187,6 +248,8 @@ Spin down the deployment and remove all images+volumes:
 docker compose down --rmi="all" -v
 ```
 
+---
+
 ## Troubleshooting
 
 ### Common Issues
@@ -204,52 +267,6 @@ docker compose logs grafana
 # Follow logs live
 docker compose logs -f prometheus
 ```
-
-## Component Overview
-
-### Metrics Collection
-- **Prometheus**: Time-series database for storing metrics
-- **Node Exporter**: Hardware and OS metrics collection
-- **cAdvisor**: Container metrics collection
-- **Mimir**: Scalable, long-term metrics storage
-
-### Logs Management
-- **Loki**: Log aggregation system
-- **Promtail**: Log collection agent
-
-### Tracing
-- **Tempo**: Distributed tracing backend
-- **OpenTelemetry Collector**: Trace collection and processing
-
-### Visualization
-- **Grafana**: Unified visualization platform for metrics, logs, and traces
-
-## TODO
-
-- [x] Initial deployment with Grafana, Prometheus, and exporters
-- [ ] Upgrade Grafana to use Mimir Prometheus TSDB
-- [ ] Develop OpenTelemetry Collector Process for Wisbot
-- [ ] Deploy OpenTelemetry o11y collector integrated with Grafana
-- [ ] Upgrade Alert Manager Storage to use GitHub Actions driven Secrets
-  
-```yaml
-alertmanager_storage:
-      backend: s3
-      s3:
-        access_key_id: {{ .Values.minio.rootUser }}
-        bucket_name: {{ include "mimir.minioBucketPrefix" . }}-ruler
-        endpoint: {{ template "minio.fullname" .Subcharts.minio }}.{{ .Release.Namespace }}.svc:{{ .Values.minio.service.port }}
-        insecure: true
-        secret_access_key: {{ .Values.minio.rootPassword }}
-```
-
-- [ ] Upgrade to Alloy Collector where necessary for production needs
-- [ ] Migrate Mimir to Microservice Deployment Mode
-- [ ] Determine Beyla eBPF Instrumentation Targets
-- [ ] Add Pyroscope for Wisbot Profiling
-- [ ] Setup relabeling to streamline service discovery | https://grafana.com/docs/loki/latest/send-data/promtail/scraping/
-- [ ] Implement high availability configuration for production
-- [ ] Add custom dashboards for Wisbot service monitoring
 
 ---
 
@@ -274,3 +291,59 @@ alertmanager_storage:
 - [OTEL Protocol](https://opentelemetry.io/docs/specs/otlp/) - Telemetry protocol specification
 - [OTEL GO Instrumentation](https://opentelemetry.io/docs/languages/go/getting-started/) - Go instrumentation
 - [OpenLLMetry](https://github.com/traceloop/openllmetry) - LLM observability
+
+---
+
+<!-- omit in toc -->
+## TODO
+
+### General Todo
+
+- [x] Initial deployment with Grafana, Prometheus, and exporters
+- [X] Upgrade Grafana to use Mimir Prometheus TSDB
+- [X] Develop OpenTelemetry Collector Process for Wisbot
+- [ ] Deploy OpenTelemetry o11y collector integrated with Grafana
+- [ ] Upgrade Alert Manager Storage to use GitHub Actions driven Secrets
+
+### WisBot Todo
+- [X] Upgrade to Alloy Collector where necessary for production needs
+- [ ] Migrate Mimir to Microservice Deployment Mode
+- [ ] Determine Beyla eBPF Instrumentation Targets
+- [X] Add Pyroscope for Wisbot Profiling
+- [ ] Setup relabeling to streamline service discovery | https://grafana.com/docs/loki/latest/send-data/promtail/scraping/
+- [ ] Implement high availability configuration for production
+- [ ] Add custom dashboards for Wisbot service monitoring
+
+### Security Enhancements
+- [ ] Implement proper secrets management through environment variables
+- [ ] Remove hardcoded credentials from configuration files
+- [ ] Configure TLS for exposed services
+- [ ] Review and secure default credentials
+
+### Operational Improvements
+- [ ] Enable AlertManager integration with proper configuration
+- [ ] Develop comprehensive alerting rules beyond basic infrastructure monitoring
+- [ ] Setup proper backup/restore procedures for persistent data
+- [ ] Standardize configuration practices across components
+
+### Application Observability
+- [ ] Complete Wisbot instrumentation to enable service-level metrics
+- [ ] Implement distributed tracing for application components
+- [ ] Configure application profiling via Pyroscope
+
+### Documentation
+- [ ] Create operational procedures and runbooks
+- [ ] Develop dashboard usage guidelines
+- [ ] Define metrics dictionary for key indicators
+- [ ] Document architectural decisions for component choices
+  
+```yaml
+alertmanager_storage:
+      backend: s3
+      s3:
+        access_key_id: {{ .Values.minio.rootUser }}
+        bucket_name: {{ include "mimir.minioBucketPrefix" . }}-ruler
+        endpoint: {{ template "minio.fullname" .Subcharts.minio }}.{{ .Release.Namespace }}.svc:{{ .Values.minio.service.port }}
+        insecure: true
+        secret_access_key: {{ .Values.minio.rootPassword }}
+```
