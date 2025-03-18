@@ -62,7 +62,6 @@ graph LR
 
     subgraph Observability Analytics
 
-
         subgraph Visualization and Analytics
             grafana[Grafana - Ports :3000]
         end
@@ -71,13 +70,14 @@ graph LR
             pyroscope["Pyroscope<br>:4040"]
         end
 
-        subgraph Data Storage and Recovery
+    end
+
+    subgraph Data Storage and Recovery
             subgraph Object Storage
             minio[MinIO S3 Object Storage - Ports :9000]
             end
             subgraph Relational Storage
                 postgres[PostgreSQL - Ports :5432]
-            end
         end
     end
     
