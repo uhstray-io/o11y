@@ -4,74 +4,118 @@ Observability deployment resources for Uhstray.io
 ## Architecture
 
 ```mermaid
-graph TD
-    subgraph Data Sources
-        apps[Applications]
-        containers[Containers]
-        nodes[Nodes]
-        logs[Logs]
-    end
-    
-    subgraph Exporters
-        otel_agent[OpenTelemetry Agent - Ports :4317, :4318]
-        nodeexp[Node Exporter - Ports :9090]
-        cadvisor[cAdvisor - Ports :9090]
-        promtail[Promtail - Ports :3100]
+graph LR
+    %% Add direction controls to subgraphs
+    subgraph Observability Collection
+        subgraph Data Sources
+            apps[Applications]
+            containers[Containers]
+            servers[Servers]
+            logs[Logs]
+        end
         
+        subgraph Instrumentation
+            subgraph Exporters
+                otel_agent[OpenTelemetry Agent - Ports :4317, :4318]
+                nodeexp[Node Exporter - Ports :9090]
+                cadvisor[cAdvisor - Ports :9090]
+                promtail[Promtail - Ports :3100]
+            end
+            subgraph Local OTEL Collector
+                otel_col[OpenTelemetry Collector - Ports :4317, :4318]
+            end
+            subgraph Local Time Series Database
+                prom[Prometheus - Ports :9090]
+            end
+        end
     end
     
-    subgraph Collectors
-        otel_col[OpenTelemetry Collector - Ports :4317, :4318]
-        alloy[Alloy - Ports :4317, :4318]
-        mimir[Mimir - Ports :9009]  
+    subgraph Observability Pipeline
+
+        subgraph Logging
+            subgraph Logs Pipeline
+                alloy_logs{"Alloy<br>:4318"}
+            end
+            loki[Loki - Ports :3100]
+            
+        end
+        subgraph Tracing
+            subgraph Tracing Pipeline
+                alloy_trace{"Alloy<br>:12345/:4319"}
+            end
+            tempoDistributor["Tempo Distributor"]
+            tempoIngesters["Tempo Ingesters"]
+            tempoQuery["Tempo Query Frontend<br>:3200"]
+            tempoQuerier["Tempo Querier"]
+            tempoCompactor["Tempo Compactor"]
+            tempoMetricsGen["Tempo Metrics Generator"]
+        end
+        
+        
+        subgraph Metrics Pipeline
+            mimirLB{"mimir Load Balancer<br>:9009"}
+            mimir1["mimir-1<br>:8080"]
+            mimir2["mimir-2<br>:8080"]
+            mimir3["mimir-3<br>:8080"]
+        end
     end
 
-    subgraph Object Storage
-        minio[MinioS3 - Ports :9000]
-    end
+    subgraph Observability Analytics
 
-    subgraph Time-Series Storage
-        prom[Prometheus - Ports :9090]
-    end
 
-    subgraph Relational Storage
-        postgres[PostgreSQL - Ports :5432]
-    end
+        subgraph Visualization and Analytics
+            grafana[Grafana - Ports :3000]
+        end
 
-    subgraph Tracing
-        tempo[Tempo - Ports :3200]
-    end
-    
-    subgraph Logging
-        loki[Loki - Ports :3100]
-    end
+        subgraph Profiling
+            pyroscope["Pyroscope<br>:4040"]
+        end
 
-    subgraph Metrics and Analytics
-        grafana[Grafana - Ports :3000]
+        subgraph Data Storage and Recovery
+            subgraph Object Storage
+            minio[MinIO S3 Object Storage - Ports :9000]
+            end
+            subgraph Relational Storage
+                postgres[PostgreSQL - Ports :5432]
+            end
+        end
     end
     
     %% Data flow connections
     apps --> otel_agent
     containers --> cadvisor
-    nodes --> nodeexp
+    servers --> nodeexp
     logs --> promtail
     
     otel_agent --> otel_col
     nodeexp --> prom
     cadvisor --> prom
+    tempoMetricsGen --> mimirLB
+    promtail --> alloy_logs
 
-    otel_col --> alloy
-    prom --> mimir
-    alloy --> tempo
-    alloy --> minio
-    mimir --> minio
+    otel_col --> alloy_trace
+    prom --> mimirLB
+    alloy_logs --> loki
+    alloy_trace --> tempoDistributor
+    alloy_trace --> pyroscope
+    mimirLB --> mimir1
+    mimirLB --> mimir2
+    mimirLB --> mimir3
+    mimir1 --> minio
+    mimir2 --> minio
+    mimir3 --> minio
     
-    promtail --> loki
+    
+    tempoDistributor --> tempoIngesters
+    tempoQuery --> tempoQuerier
+    tempoQuerier --> tempoIngesters
+    tempoCompactor --> minio
+    tempoIngesters --> minio
 
-    mimir --> grafana
-    loki --> grafana
-    tempo --> grafana
-
+    grafana --> mimirLB
+    grafana --> loki
+    grafana --> tempoQuery
+    grafana --> pyroscope
     grafana --> postgres
 ```
 
