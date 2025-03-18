@@ -47,8 +47,8 @@ storage:
     backend: s3
     s3:
       bucket: tempo
-      endpoint: minio:9001
-      access_key: minio
+      endpoint: minio-tempo:9001
+      access_key: tempo
       secret_key: supersecret
       insecure: true                     # backend configuration to use
     wal:

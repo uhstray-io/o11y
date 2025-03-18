@@ -5,7 +5,7 @@ networks:
   back-tier:
 
 services:  
-  minio:
+  minio-tempo:
     image: minio/minio
     entrypoint: [""]
     command: ["sh", "-euc", "mkdir -p /data/tempo && minio server /data --console-address ':9001'"]
