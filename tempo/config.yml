@@ -9,7 +9,7 @@ distributor:
           endpoint: "0.0.0.0:4317"
 
 ingester:
-  max_block_duration: 10m
+  max_block_duration: 15m
 
 memberlist:
   abort_if_cluster_join_fails: false
@@ -23,7 +23,7 @@ memberlist:
 
 compactor:
   compaction:
-    block_retention: 30d
+    block_retention: 336h
 
 querier:
   frontend_worker:
