@@ -6,6 +6,9 @@ volumes:
 networks:
   back-tier:
 
+include:
+  - ./minio/compose.yml
+
 services:  
   mimir-1:
     image: grafana/mimir:latest
