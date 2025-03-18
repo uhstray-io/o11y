@@ -1,0 +1,9 @@
+networks:
+  back-tier:
+
+services:
+  pyroscope:
+    image: grafana/pyroscope:latest
+    restart: on-failure
+    ports:
+      - "4040:4040"

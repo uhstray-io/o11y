@@ -1,0 +1,60 @@
+logging {
+	level = "info"
+
+	// Forward internal logs to the local Loki instance.
+	write_to = [loki.relabel.alloy_logs.receiver]
+}
+
+loki.relabel "alloy_logs"{
+	rule {
+		target_label = "instance"
+		replacement = constants.hostname
+	}
+
+	rule {
+		target_label = "job"
+		replacement = "integrations/self"
+	}
+
+	forward_to = [loki.write.loki.receiver]
+}
+
+otelcol.receiver.otlp "otlp_receiver" {
+  grpc {
+    endpoint = "0.0.0.0:4317"
+  }
+  http {
+    endpoint = "0.0.0.0:4318"
+  }
+
+  output {
+    traces = [otelcol.exporter.otlp.tempo.input,]
+  }
+}
+
+loki.write "loki" {
+	endpoint {
+		url = string.format(
+			"http://%s/loki/api/v1/push",
+			coalesce(sys.env("LOKI_HOST"), "localhost:3100"),
+		)
+	}
+}
+
+otelcol.exporter.otlp "tempo" {
+  client {
+    endpoint = "tempo:4317"
+    tls {
+			insecure = true
+		}
+  }
+}
+
+pyroscope.write "pyroscope" {
+	endpoint {
+		url = string.format(
+			"http://%s",
+			coalesce(sys.env("PYROSCOPE_HOST"), "localhost:4040"),
+		)
+	}
+}

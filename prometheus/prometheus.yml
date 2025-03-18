@@ -7,7 +7,7 @@ global:
   # Attach these labels to any time series or alerts when communicating with
   # external systems (federation, remote storage, Alertmanager).
   external_labels:
-    monitor: "ops-qa"
+    monitor: "ops-dev"
     server: "alphacentauri"
     platform: "o11y"
 
@@ -58,6 +58,18 @@ scrape_configs:
       - targets: ["node-exporter:9100"]
         labels:
           service: node-exporter
+
+  - job_name: 'tempo'
+    static_configs:
+      - targets:
+        - 'compactor:3200'
+        - 'distributor:3200'
+        - 'ingester-0:3200'
+        - 'ingester-1:3200'
+        - 'ingester-2:3200'
+        - 'querier:3200'
+        - 'query-frontend:3200'
+        - 'metrics-generator:3200'
 
   # # Service Discovery for Docker Containers
   # - job_name: "docker-containers"

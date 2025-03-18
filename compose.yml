@@ -7,15 +7,17 @@ networks:
 
 include:
   # - alertmanager/compose.yml
+  - alloy/compose.yml
   - cadvisor/compose.yml
-  - tempo/compose.yml
   - loki/compose.yml
   - mimir/compose.yml
   - mimir/load-balancer/compose.yml
-  - mimir/minio/compose.yml
+  - minio/compose.yml
   - node-exporter/compose.yml
   - prometheus/compose.yml
   - promtail/compose.yml
+  - pyroscope/compose.yml
+  - tempo/compose.yml
   # - windows-exporter/compose.yml
 
 services:

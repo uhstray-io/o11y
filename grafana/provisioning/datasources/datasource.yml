@@ -106,3 +106,13 @@ datasources:
         search: true
   secureJsonData:
     httpHeaderValue1: "o11y"
+
+- name: Pyroscope
+  type: grafana-pyroscope-datasource
+  access: proxy
+  orgId: 1
+  url: http://pyroscope:4040/
+  basicAuth: false
+  isDefault: false
+  version: 1
+  editable: true

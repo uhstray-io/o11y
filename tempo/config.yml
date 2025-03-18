@@ -3,28 +3,32 @@ server:
   http_listen_port: 3200
   log_level: info
 
-query_frontend:
-  search:
-    duration_slo: 5s
-    throughput_bytes_slo: 1.073741824e+09
-    metadata_slo:
-        duration_slo: 5s
-        throughput_bytes_slo: 1.073741824e+09
-  trace_by_id:
-    duration_slo: 5s
-
 distributor:
   receivers:
     otlp:
       protocols:
         grpc:
-          endpoint: "tempo:4317"
+          endpoint: "0.0.0.0:4317"
+
+memberlist:
+  abort_if_cluster_join_fails: false
+  bind_port: 7946
+  join_members:
+  - ingester-0:7946
+  - ingester-1:7946
+  - ingester-2:7946
+  - metrics-generator-0:7946
+  - metrics-generator-1:7946
+
+querier:
+  frontend_worker:
+    frontend_address: query-frontend:9095
 
 metrics_generator:
   registry:
     external_labels:
       source: tempo
-      cluster: docker-compose
+      cluster: 
   storage:
     path: /var/tempo/generator/wal
     remote_write:
@@ -35,7 +39,13 @@ metrics_generator:
 
 storage:
   trace:
-    backend: local                     # backend configuration to use
+    backend: s3
+    s3:
+      bucket: tempo
+      endpoint: minio:9000
+      access_key: minio
+      secret_key: supersecret
+      insecure: true                     # backend configuration to use
     wal:
       path: /var/tempo/wal             # where to store the wal locally
     local:

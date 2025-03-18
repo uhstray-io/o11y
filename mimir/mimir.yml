@@ -7,7 +7,7 @@ common:
     backend: s3
     s3:
       endpoint: minio:9000
-      access_key_id: mimir
+      access_key_id: minio
       secret_access_key: supersecret
       insecure: true
       bucket_name: mimir

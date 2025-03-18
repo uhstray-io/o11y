@@ -1,28 +1,93 @@
+networks:
+  back-tier:
+  front-tier:
+
 services:
-  init:
+  distributor:
     image: &tempoImage grafana/tempo:latest
-    user: root
-    entrypoint:
-      - "chown"
-      - "10001:10001"
-      - "/var/tempo"
+    command: "-target=distributor -config.file=/etc/tempo.yaml"
+    restart: always
     volumes:
-      - ./tempo-data:/var/tempo
-
-  tempo:
-    image: *tempoImage
-    command: [ "-config.file=/etc/tempo.yaml" ]
-    volumes:
-      - ../config.yaml:/etc/tempo.yaml
-      - ./tempo-data:/var/tempo
+      - ./config.yaml:/etc/tempo.yaml
     ports:
-      - "3200" # tempo
-      - "4317" # otlp grpc
-    depends_on:
-      - init
+      - "3200"   
+    environment:
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://alloy:4318
 
-  tempo-otel-collector:
-    image: otel/opentelemetry-collector:latest
-    command: [ "--config=/etc/otel-collector.yaml" ]
+  ingester-0:
+    image: *tempoImage
+    command: "-target=ingester -config.file=/etc/tempo.yaml"
+    restart: always
     volumes:
-      - ./otel-collector.yaml:/etc/otel-collector.yaml
+      - ./config.yaml:/etc/tempo.yaml
+    ports:
+      - "3200"   
+    environment:
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://alloy:4318
+
+  ingester-1:
+    image: *tempoImage
+    command: "-target=ingester -config.file=/etc/tempo.yaml"
+    restart: always
+    volumes:
+      - ./config.yaml:/etc/tempo.yaml
+    ports:
+      - "3200"   
+    environment:
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://alloy:4318
+
+  ingester-2:
+    image: *tempoImage
+    command: "-target=ingester -config.file=/etc/tempo.yaml"
+    restart: always
+    volumes:
+      - ./config.yaml:/etc/tempo.yaml
+    ports:
+      - "3200"   
+    environment:
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://alloy:4318
+
+  query-frontend:
+    image: *tempoImage
+    command: "-target=query-frontend -config.file=/etc/tempo.yaml -log.level=debug"
+    restart: always
+    volumes:
+      - ./config.yaml:/etc/tempo.yaml
+    ports:
+      - "3200:3200"   
+    environment:
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://alloy:4318
+
+  querier:
+    image: *tempoImage
+    command: "-target=querier -config.file=/etc/tempo.yaml -log.level=debug"
+    restart: always
+    volumes:
+      - ./config.yaml:/etc/tempo.yaml
+    ports:
+      - "3200"   
+    environment:
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://alloy:4318
+
+  compactor:
+    image: *tempoImage
+    command: "-target=compactor -config.file=/etc/tempo.yaml"
+    restart: always
+    volumes:
+      - ./config.yaml:/etc/tempo.yaml
+    ports:
+      - "3200"   
+    environment:
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://alloy:4318
+
+  metrics-generator:
+    image: *tempoImage
+    command: "-target=metrics-generator -config.file=/etc/tempo.yaml"
+    restart: always
+    volumes:
+      - ./config.yaml:/etc/tempo.yaml
+    ports:
+      - "3200"   
+    environment:
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://alloy:4318
+      
