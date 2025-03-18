@@ -59,7 +59,7 @@ scrape_configs:
           service: node-exporter
 
 remote_write:
-  - url: http://192.168.1.14:9090/api/v1/push
+  - url: http://192.168.1.14:9009/api/v1/push
     # Add X-Scope-OrgID header so that Mimir knows what tenant the remote write data should be stored in.
     # In this case, our tenant is "demo"
     headers:
