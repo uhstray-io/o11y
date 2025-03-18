@@ -5,10 +5,10 @@ networks:
 services:
   distributor:
     image: &tempoImage grafana/tempo:latest
-    command: "-target=distributor -config.file=/etc/tempo.yaml"
+    command: "-target=distributor -config.file=/etc/tempo/config.yml"
     restart: always
     volumes:
-      - config.yaml:/etc/tempo.yaml
+      - ./config.yml:/etc/tempo/config.yml
     ports:
       - "3200"   
     environment:
@@ -16,10 +16,10 @@ services:
 
   ingester-0:
     image: *tempoImage
-    command: "-target=ingester -config.file=/etc/tempo.yaml"
+    command: "-target=ingester -config.file=/etc/tempo/config.yml"
     restart: always
     volumes:
-      - config.yaml:/etc/tempo.yaml
+      - ./config.yml:/etc/tempo/config.yml
     ports:
       - "3200"   
     environment:
@@ -27,10 +27,10 @@ services:
 
   ingester-1:
     image: *tempoImage
-    command: "-target=ingester -config.file=/etc/tempo.yaml"
+    command: "-target=ingester -config.file=/etc/tempo/config.yml"
     restart: always
     volumes:
-      - config.yaml:/etc/tempo.yaml
+      - ./config.yml:/etc/tempo/config.yml
     ports:
       - "3200"   
     environment:
@@ -38,10 +38,10 @@ services:
 
   ingester-2:
     image: *tempoImage
-    command: "-target=ingester -config.file=/etc/tempo.yaml"
+    command: "-target=ingester -config.file=/etc/tempo/config.yml"
     restart: always
     volumes:
-      - config.yaml:/etc/tempo.yaml
+      - ./config.yml:/etc/tempo/config.yml
     ports:
       - "3200"   
     environment:
@@ -49,10 +49,10 @@ services:
 
   query-frontend:
     image: *tempoImage
-    command: "-target=query-frontend -config.file=/etc/tempo.yaml -log.level=debug"
+    command: "-target=query-frontend -config.file=/etc/tempo/config.yml -log.level=debug"
     restart: always
     volumes:
-      - config.yaml:/etc/tempo.yaml
+      - ./config.yml:/etc/tempo/config.yml
     ports:
       - "3200:3200"   
     environment:
@@ -60,10 +60,10 @@ services:
 
   querier:
     image: *tempoImage
-    command: "-target=querier -config.file=/etc/tempo.yaml -log.level=debug"
+    command: "-target=querier -config.file=/etc/tempo/config.yml -log.level=debug"
     restart: always
     volumes:
-      - config.yaml:/etc/tempo.yaml
+      - ./config.yml:/etc/tempo/config.yml
     ports:
       - "3200"   
     environment:
@@ -71,10 +71,10 @@ services:
 
   compactor:
     image: *tempoImage
-    command: "-target=compactor -config.file=/etc/tempo.yaml"
+    command: "-target=compactor -config.file=/etc/tempo/config.yml"
     restart: always
     volumes:
-      - config.yaml:/etc/tempo.yaml
+      - ./config.yml:/etc/tempo/config.yml
     ports:
       - "3200"   
     environment:
@@ -82,10 +82,10 @@ services:
 
   metrics-generator:
     image: *tempoImage
-    command: "-target=metrics-generator -config.file=/etc/tempo.yaml"
+    command: "-target=metrics-generator -config.file=/etc/tempo/config.yml"
     restart: always
     volumes:
-      - config.yaml:/etc/tempo.yaml
+      - ./config.yml:/etc/tempo/config.yml
     ports:
       - "3200"   
     environment:
