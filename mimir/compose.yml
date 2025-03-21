@@ -6,16 +6,13 @@ volumes:
 networks:
   back-tier:
 
-include:
-  - ./minio/compose.yml
-
 services:  
   mimir-1:
     image: grafana/mimir:latest
     command: ["-config.file=/etc/mimir.yml"]
     hostname: mimir-1
     depends_on:
-      - minio-mimir
+      - minio
     volumes:
       - ./mimir.yml:/etc/mimir.yml
       - ../alertmanager/config.yml:/etc/alertmanager-config.yml
@@ -29,7 +26,7 @@ services:
     command: ["-config.file=/etc/mimir.yml"]
     hostname: mimir-2
     depends_on:
-      - minio-mimir
+      - minio
     volumes:
       - ./mimir.yml:/etc/mimir.yml
       - ../alertmanager/config.yml:/etc/alertmanager-config.yml
@@ -43,7 +40,7 @@ services:
     command: ["-config.file=/etc/mimir.yml"]
     hostname: mimir-3
     depends_on:
-      - minio-mimir
+      - minio
     volumes:
       - ./mimir.yml:/etc/mimir.yml
       - ../alertmanager/config.yml:/etc/alertmanager-config.yml
