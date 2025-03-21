@@ -2,9 +2,6 @@ networks:
   back-tier:
   front-tier:
 
-include:
-  - minio/compose.yml
-
 services:
   distributor:
     image: &tempoImage grafana/tempo:latest
