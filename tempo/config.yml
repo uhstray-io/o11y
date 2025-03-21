@@ -47,7 +47,7 @@ storage:
     backend: s3
     s3:
       bucket: tempo
-      endpoint: minio-tempo:9001
+      endpoint: minio:9000
       access_key: mimir
       secret_key: supersecret
       insecure: true                     # backend configuration to use

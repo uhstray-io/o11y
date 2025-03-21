@@ -5,10 +5,10 @@ networks:
   back-tier:
 
 services:  
-  minio-tempo:
+  minio:
     image: minio/minio
     entrypoint: [""]
-    command: ["sh", "-euc", "mkdir -p /data/tempo && minio server /data --console-address ':9001'"]
+    command: ["sh", "-euc", "mkdir -p /data/mimir && minio server --quiet /data"]
     environment:
       - MINIO_ROOT_USER=mimir
       - MINIO_ROOT_PASSWORD=supersecret
