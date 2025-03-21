@@ -12,7 +12,7 @@ include:
   - loki/compose.yml
   - mimir/compose.yml
   - mimir/load-balancer/compose.yml
-  # - minio/compose.yml
+  - minio/compose.yml
   - node-exporter/compose.yml
   - prometheus/compose.yml
   - promtail/compose.yml
