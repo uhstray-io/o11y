@@ -1,0 +1,13 @@
+networks:
+  back-tier:
+
+services:
+  k6-tracing:
+    image: ghcr.io/grafana/xk6-client-tracing:v0.0.7
+    environment:
+      - ENDPOINT=distributor:4317
+    restart: always
+    depends_on:
+      - distributor
+    logging:
+      driver: "none"
