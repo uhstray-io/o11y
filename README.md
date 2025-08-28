@@ -167,23 +167,27 @@ This repository contains the deployment resources for our observability stack, i
 ## Component Overview
 
 ### Metrics Collection
-- **Prometheus**: Time-series database for storing metrics
-- **Node Exporter**: Hardware and OS metrics collection
-- **cAdvisor**: Container metrics collection
-- **Mimir**: Scalable, long-term metrics storage
+- **Prometheus**: Time-series database for storing metrics (port 9090)
+- **Node Exporter**: Hardware and OS metrics collection (port 9100)
+- **cAdvisor**: Container metrics collection (port 9092) 
+- **Mimir**: Scalable, long-term metrics storage with 3-replica cluster and load balancer (port 9009)
 
 ### Logs Management
-- **Loki**: Log aggregation system
-- **Promtail**: Log collection agent
+- **Loki**: Log aggregation system (port 3100)
+- **Promtail**: Log collection agent with platform-specific configurations (port 9080)
 
 ### Tracing
-- **Tempo**: Distributed tracing backend
-- **OpenTelemetry Collector**: Trace collection and processing
-- **Alloy**: Unified telemetry collector
+- **Tempo**: Distributed tracing backend with microservice architecture (port 3200)
+  - Distributors, Ingesters, Query Frontend, Queriers, Compactors, Metrics Generator
+- **OpenTelemetry Collector**: Trace collection and processing (ports 4317, 4318)
+- **Alloy**: Unified telemetry collector (ports 4317, 4318)
 
 ### Visualization
-- **Grafana**: Unified visualization platform for metrics, logs, and traces
-- **Pyroscope**: Continuous profiling platform
+- **Grafana**: Unified visualization platform for metrics, logs, and traces (port 3000)
+- **Pyroscope**: Continuous profiling platform (port 4040)
+
+### Data Storage
+- **MinIO**: S3-compatible object storage for Mimir and Tempo persistence (port 9000)
 
 ---
 
@@ -193,6 +197,7 @@ This repository contains the deployment resources for our observability stack, i
 
 - [Docker](https://docs.docker.com/engine/install/) and Docker Compose installed
 - Minimum recommended resources: 8 CPU cores, 16GB RAM
+- **Platform Support**: Optimized for macOS, Linux, and Windows with platform-specific configurations
 
 ### Deployment
 
@@ -209,16 +214,23 @@ Run docker compose:
 docker compose up -d
 ```
 
+**Note**: The deployment automatically uses platform-optimized configurations:
+- **macOS**: Uses `promtail/compose-mac.yml` for macOS-specific log collection
+- **Linux**: Uses standard configurations with systemd journal support
+- **Windows**: Can be configured with `windows-exporter/compose.yml` (currently commented out)
+
 ### Accessing Dashboards
 
 Navigate to the following dashboards:
 
-- Grafana Dashboard: [http://localhost:3000](http://localhost:3000) (default credentials: admin/admin)
-- Prometheus Dashboard: [http://localhost:9090](http://localhost:9090)
-- Mimir Dashboard: [http://localhost:9009/](http://localhost:9009/)
-- cAdvisor Dashboard: [http://localhost:9092/](http://localhost:9092/)
-- Tempo UI: [http://localhost:3200](http://localhost:3200)
-- Loki UI: [http://localhost:3100](http://localhost:3100)
+- **Grafana Dashboard**: [http://localhost:3000](http://localhost:3000) (credentials: admin/admin)
+- **Prometheus Dashboard**: [http://localhost:9090](http://localhost:9090)
+- **Mimir Dashboard**: [http://localhost:9009/](http://localhost:9009/) (via load balancer)
+- **cAdvisor Dashboard**: [http://localhost:9092/](http://localhost:9092/)
+- **Tempo UI**: [http://localhost:3200](http://localhost:3200) (distributed tracing)
+- **Loki UI**: [http://localhost:3100](http://localhost:3100) (log aggregation)
+- **Pyroscope UI**: [http://localhost:4040](http://localhost:4040) (continuous profiling)
+- **Node Exporter Metrics**: [http://localhost:9100/metrics](http://localhost:9100/metrics)
 
 ---
 
@@ -257,6 +269,10 @@ docker compose down --rmi="all" -v
 1. **Services fail to start**: Check for port conflicts with `docker ps -a` and stop any conflicting services
 2. **Out of memory errors**: Increase Docker memory allocation in Docker Desktop settings
 3. **Permission issues**: Ensure proper file permissions for volume mounts
+4. **Promtail journal errors on macOS**: Fixed with platform-specific configuration using `promtail/compose-mac.yml`
+5. **Tempo services can't connect to MinIO**: Resolved by adding `back-tier` network configuration to all Tempo services
+6. **Mimir authentication failures**: Fixed credential mismatch between Mimir and MinIO configurations
+7. **Node Exporter mount errors**: Resolved conflicting volume mount options for better cross-platform compatibility
 
 ### Viewing Component Logs
 
@@ -267,6 +283,22 @@ docker compose logs grafana
 # Follow logs live
 docker compose logs -f prometheus
 ```
+
+### Recent Improvements
+
+**Connectivity & Data Flow**:
+- ✅ **Mimir → MinIO**: Fixed authentication and bucket creation for metrics persistence
+- ✅ **Tempo → MinIO**: Resolved network connectivity for distributed trace storage
+- ✅ **Service Discovery**: All services can now properly communicate via Docker networks
+
+**Platform Compatibility**:
+- ✅ **macOS Support**: Custom Promtail configuration eliminates systemd journal errors
+- ✅ **Cross-Platform**: Separate compose files for different operating systems
+- ✅ **Container Stability**: Fixed mount propagation issues on macOS/Docker Desktop
+
+**Performance Optimizations**:
+- ✅ **Rate Limiting**: Optimized Promtail batch sizes to prevent Loki ingestion errors
+- ✅ **Resource Usage**: Improved container resource allocation and restart policies
 
 ---
 
