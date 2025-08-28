@@ -1,0 +1,20 @@
+networks:
+  back-tier:
+
+services:  
+  promtail:
+    image: grafana/promtail:latest
+    volumes:
+      # Mac-specific log paths
+      - /var/log:/var/log:ro
+      - /private/var/log:/private/var/log:ro
+      - ./config-mac.yml:/etc/promtail/config.yml:ro
+    command: -config.file=/etc/promtail/config.yml
+    ports:
+      - 9080:9080
+      - 1514:1514
+    networks:
+      - back-tier
+    restart: unless-stopped
+    environment:
+      - HOSTNAME=${HOSTNAME:-mac-promtail}

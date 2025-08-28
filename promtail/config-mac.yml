@@ -1,0 +1,93 @@
+server:
+  http_listen_port: 9080
+  grpc_listen_port: 0
+
+positions:
+  filename: /tmp/positions.yaml
+
+clients:
+  - url: http://loki:3100/loki/api/v1/push
+    batchwait: 1s
+    batchsize: 1048576
+    timeout: 10s
+    backoff_config:
+      min_period: 500ms
+      max_period: 5m
+      max_retries: 10
+
+scrape_configs:
+  # Mac system logs (recent only)
+  - job_name: mac_system_logs
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          job: mac_system_logs
+          monitor: "ops-qa"
+          server: "mac"
+          platform: "o11y"
+          __path__: /var/log/system.log
+    pipeline_stages:
+      - match:
+          selector: '{job="mac_system_logs"}'
+          stages:
+          - regex:
+              expression: '^(?P<timestamp>\w{3}\s+\d{1,2}\s+\d{2}:\d{2}:\d{2})'
+          - timestamp:
+              source: timestamp
+              format: "Jan _2 15:04:05"
+              location: "Local"
+
+  # Mac application logs  
+  - job_name: mac_app_logs
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          job: mac_app_logs
+          monitor: "ops-qa"
+          server: "mac"
+          platform: "o11y"
+          __path__: /var/log/*.log
+
+  # Docker container logs (if accessible)
+  - job_name: docker_logs
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          job: docker_logs
+          monitor: "ops-qa"
+          server: "mac"
+          platform: "o11y"
+          __path__: /var/log/containers/*.log
+    pipeline_stages:
+      - docker: {}
+
+  # Syslog listener for remote logs
+  - job_name: syslog
+    syslog:
+      listen_address: 0.0.0.0:1514
+      listen_protocol: tcp
+      idle_timeout: 60s
+      label_structured_data: yes
+      labels:
+        job: "syslog"
+        monitor: "ops-qa"
+        server: "mac"
+        platform: "o11y"
+    relabel_configs:
+      - source_labels: ["__syslog_message_hostname"]
+        target_label: "host"
+
+  # Mac Console logs (if mounted)
+  - job_name: mac_console_logs
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          job: mac_console_logs
+          monitor: "ops-qa"
+          server: "mac"
+          platform: "o11y"
+          __path__: /var/log/install.log

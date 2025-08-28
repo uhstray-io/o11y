@@ -15,7 +15,8 @@ include:
   - minio/compose.yml
   - node-exporter/compose.yml
   - prometheus/compose.yml
-  - promtail/compose.yml
+  # - promtail/compose.yml
+  - promtail/compose-mac.yml
   - pyroscope/compose.yml
   - tempo/compose.yml
   # - windows-exporter/compose.yml
